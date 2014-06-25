@@ -26,7 +26,7 @@ module ActiveScaffold::Actions
         return_to_main
       end
     end
-    
+
     def new_respond_to_js
       render(:partial => 'create_form')
     end
@@ -34,7 +34,7 @@ module ActiveScaffold::Actions
     def create_respond_to_html
       if params[:iframe]=='true' # was this an iframe post ?
         responds_to_parent do
-          render :action => 'on_create.js', :layout => false
+          render :action => 'on_create', :layout => false, formats: :js
         end
       else
         if successful?
@@ -116,11 +116,11 @@ module ActiveScaffold::Actions
 
     # The default security delegates to ActiveRecordPermissions.
     # You may override the method to customize.
-    
+
     def create_ignore?
       nested? && active_scaffold_config.list.always_show_create
     end
-    
+
     def create_authorized?
       (!nested? || !nested.readonly? || !nested.through?) && authorized_for?(:crud_type => :create)
     end
